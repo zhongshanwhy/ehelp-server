@@ -17,8 +17,7 @@ def add_account(data):
     return -1
   sql_account = "insert into alluser (user_id, password, phone, job, age, gender, health_state) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s')"
   try:
-    insert_id = dbhelper.insert(sql_account)
-    dbhelper.insert(sql_user%(insert_id))
+    insert_id = dbhelper.insert(sql_account%(data[KEY.USER_ID],data[KEY.PASSWORD],data[KEY.PHONE],data[KEY.JOB],data[KEY.AGE],data[KEY.GENDER],data[KEY.HEALTH_STATE]))
     return insert_id
   except:
     return -1
@@ -26,7 +25,7 @@ def add_account(data):
 def validate_password(data):
   if KEY.USER_ID not in data or KEY.PASSWORD not in data:
     return -1
-  sql = "select user_id, password from alluser where user_id = '%s'"
+  sql = "select user_id, password from alluser where user_id = '%s' and password = %s"
   user_id = -1
   password = None
   try:
@@ -69,7 +68,7 @@ def add_question(data):
   sql = "insert into question (question_id, question_content, question_type, question_time) values (%s, %s, %s, now())"
   event_id = -1
   try:
-    event_id = dbhelper.insert(sql%(data[KEY.QUESTION_ID], data[KEY.QUESTION_TIME]))
+    event_id = dbhelper.insert(sql%(data[KEY.QUESTION_ID], data[KEY.QUESTION_CONTENT],data[KEY.QUESTION_TYPE],data[KEY.QUESTION_TIME]))
     if event_id > 0:
       data[KEY.QUESTION_ID] = question_id
       update_event(data)
@@ -81,7 +80,7 @@ def add_answer(data):
   sql = "insert into answer (answer_id, question_id, answer_content, answer_type, answer_time) values (%s, %s, %s, %s, now())"
   event_id = -1
   try:
-    event_id = dbhelper.insert(sql%(data[KEY.ANSWER_ID], data[KEY.QUESTION_ID]))
+    event_id = dbhelper.insert(sql%(data[KEY.ANSWER_ID], data[KEY.QUESTION_ID],data[KEY.ANSWER_CONTENT],data[KEY.ANSWER_TYPE],data[KEY.ANSWER_TIME]))
     if event_id > 0:
       data[KEY.ANSWER_ID] = answer_id
       update_event(data)
@@ -184,7 +183,7 @@ def get_friend(data):
   event_info = None
   sql = "select host_name from event where guest_name = %s and host_name = %s"
   try:
-    sql_result = dbhelper.execute_fetchone(sql%(data[KEY.GUEST_NAME]),data[KEY.HOST_NAME])
+    sql_result = dbhelper.execute_fetchone(sql%(data[KEY.GUEST_NAME],data[KEY.HOST_NAME]))
     if sql_result is not None:
       friend_info = {}
       friend_info[KEY.HOST_NAME] = sql_result[0]
@@ -199,7 +198,7 @@ def get_friendlist_information(data):
   friend = {}
   sql = "select guest_name from friendlist where host_name = %d order by time DESC"
   try:
-    sql_result = dbhelper.execute_fetchall(sql%(data[KEY.EVENT_ID]))
+    sql_result = dbhelper.execute_fetchall(sql%(data[KEY.HOST_NAME]))
     for each_result in sql_result:
       for each_id in each_result:
         friend[KEY.HOST_NAME] = each_id
