@@ -1,0 +1,23 @@
+1、完成了后台数据库操作的定义和编写:
+    ehelp.sql
+    utils
+       |------KEY.py
+       |------STATUS.py
+       |------utils.py
+    database
+       |------db.py
+       |------dbhelper.py
+
+2、完成了后台服务器操作的定义和编写:
+    main.py
+    handler
+       |------answeraproblem_handler.py
+       |------delfriend_handler.py
+       |------friending_handler.py
+       |------getanswer_handler.py
+       |------getfriendlist_handler.py
+       |------getinfo_handler.py
+       |------getproblemlist_handler.py
+       |------login_handler.py
+       |------push_event_handler.py
+       |------regist_handler.py
