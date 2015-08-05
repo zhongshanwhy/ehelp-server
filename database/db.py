@@ -208,3 +208,119 @@ def get_friendlist_information(data):
     return friend_list
   except:
     return None
+
+'''operations about bank'''
+def create_bank(data):
+  sql = "insert into bank (bank_name, grade, coin) values (%s, %d, %d)"
+  event_id = -1
+  try:
+    event_id = dbhelper.insert(sql%(data[KEY.BANK_NAME], data[KEY.GRADE],data[KEY.COIN]))
+    return event_id
+  except:
+    return -1
+
+def update_bank(data):
+  if KEY.BANK_ID not in data:
+    return False
+  result = True
+  
+  sql = ""
+  if KEY.GRADE in data:
+    sql = "update bank set grade = '%d' where bank_name = %d"
+    try:
+      dbhelper.execute(sql%(data[KEY.GRADE], data[KEY.BANK_NAME]))
+      result &= True
+    except:
+      result &= False
+
+  if KEY.COIN in data:
+    sql = "update bank set coin = '%d' where bank_name = %d"
+    try:
+      dbhelper.execute(sql%(data[KEY.COIN], data[KEY.BANK_NAME]))
+      result &= True
+    except:
+      result &= False
+  return True
+
+def get_bank(data):
+  if KEY.ID not in data:
+    return None
+  sql = "select * from bank where bank_name = %s"
+  try:
+    res = dbhelper.execute_fetchone(sql%(data[KEY.BANK_NAME]))
+    if res is None:
+      return None
+    else:
+      user = {}
+      user[KEY.BANK_ID] = res[0]
+      user[KEY.BANK_NAME] = res[1]
+      user[KEY.GRADE] = res[2]
+      user[KEY.COIN] = res[3]
+      return user
+  except:
+    return None
+
+'''operations about sign'''
+def create_sign(data):
+  sql = "insert into sign (sign_name, sign_history, sign_time) values (%s, %d, now())"
+  event_id = -1
+  try:
+    event_id = dbhelper.insert(sql%(data[KEY.SIGN_NAME], data[KEY.SIGN_HISTORY],data[KEY.SIGN_TIME]))
+    return event_id
+  except:
+    return -1
+
+def update_sign(data):
+  if KEY.BANK_ID not in data:
+    return False
+  result = True
+  
+  sql = ""
+  if KEY.SIGN_HISTORY in data:
+    sql = "update sign set sign_history = '%d' where sign_name = %s"
+    try:
+      dbhelper.execute(sql%(data[KEY.SIGN_HISTORY], data[KEY.SIGN_NAME]))
+      result &= True
+    except:
+      result &= False
+
+  if KEY.SIGN_TIME in data:
+    sql = "update sign set sign_time = 'now()' where sign_name = %s"
+    try:
+      dbhelper.execute(sql%(data[KEY.SIGN_TIME], data[KEY.SIGN_NAME]))
+      result &= True
+    except:
+      result &= False
+  return True
+
+def is_sign_in(sign_name):
+  result = False
+  sql = "select count(*) from sign where sign_name = %s and to_days(time) = to_days(now())"
+  try:
+    sql_result = dbhelper.execute_fetchone(sql%(sign_name))[0]
+    if sql_result > 0:
+      result = True
+    else:
+      result = False
+  except:
+    result = False
+  finally:
+    return result
+
+def get_sign():
+  if KEY.ID not in data:
+    return None
+  sql = "select * from sign where sign_name = %s"
+  try:
+    res = dbhelper.execute_fetchone(sql%(data[KEY.BANK_NAME]))
+    if res is None:
+      return None
+    else:
+      user = {}
+      user[KEY.SIGN_ID] = res[0]
+      user[KEY.SIGN_NAME] = res[1]
+      user[KEY.SIGN_HISTORY] = res[2]
+      user[KEY.SIGN_TIME] = res[3]
+      return user
+  except:
+    return None

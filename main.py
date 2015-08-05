@@ -14,6 +14,11 @@ from handler import raiseproblem_handler
 from handler import getproblemlist_handler
 from handler import answeraproblem_handler
 from handler import getanswer_handler
+from handler import createbank_handler
+from handler import createsign_handler
+from handler import signin_handler
+from handler import addgrade_handler
+from handler import addcoin_handler
 
 
 def main():
@@ -29,7 +34,12 @@ def main():
       (r"/question/raiseproblem", raiseproblem_handler.Raiseproblem_Handler),
       (r"/question/getproblemlist", getproblemlist_handler.Getproblemlist_Handler),
       (r"/question/answeraproblem", answeraproblem_handler.Answeraproblem_Handler),
-      (r"/getanswer", getanswer_handler.Getanswer_Handler)
+      (r"/getanswer", getanswer_handler.Getanswer_Handler),
+      (r"/createbank", createbank_handler.Createbank_Handler),
+      (r"/createsign", createsign_handler.Createsign_Handler),
+      (r"/signin",signin_handler.Signin_Handler),
+      (r"/addgrade",addgrade_handler.Addgrade_Handler),
+      (r"/addcoin",addcoin_handler.Addcoin_Handler)
     ])
   http_server = tornado.httpserver.HTTPServer(application)
   http_server.listen(port)

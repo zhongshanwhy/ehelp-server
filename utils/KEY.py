@@ -35,3 +35,16 @@ GUEST_NAME = 'guest_name'
 
 FRIEND_LIST = 'friend_list'
 PROBLEM_LIST = 'problem_list'
+
+#new tables added at 2015/8/3
+# bank
+BANK_ID = 'bank_id'
+BANK_NAME = 'bank_name'
+GRADE = 'grade'
+COIN = 'coin'
+
+#sign
+SIGN_ID = 'sign_id'
+SIGN_NAME = 'sign_name'
+SIGN_HISTORY = 'sign_history'
+SIGN_TIME = 'sign_time'
